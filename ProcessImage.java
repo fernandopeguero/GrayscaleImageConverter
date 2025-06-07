@@ -42,7 +42,12 @@ public class ProcessImage {
             ImageResource image = new ImageResource(f);
             ImageResource outImage = makeGrayscale(image);
             
+            String name = image.getFileName();
+            String newName = "gray-" + name;
+            outImage.setFileName(newName);
+           
             outImage.draw();
+             outImage.save();
         }
         
     }
