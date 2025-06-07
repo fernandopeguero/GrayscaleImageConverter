@@ -13,9 +13,6 @@ public class ProcessImage {
         ImageResource outImage = new ImageResource(inImage.getWidth(), inImage.getHeight());
         
         for(Pixel p: outImage.pixels()){
-            // get the inImage current pixel 
-            // add the rgb and divide by 3 to average variable set the variable 
-            // set outImage pixel red ,green, blue to the color
             
             Pixel currentPixel = inImage.getPixel(p.getX() , p.getY());
             
@@ -26,10 +23,46 @@ public class ProcessImage {
             p.setBlue(average);
         }
         
-        // draw image 
-        outImage.draw();
-        
         return outImage;
+    }
+    
+    ImageResource invertColor(ImageResource inImage) {
+        
+        ImageResource outImage = new ImageResource(inImage.getWidth(), inImage.getHeight());
+        
+        for(Pixel p: outImage.pixels()){
+        
+            Pixel currentPixel = inImage.getPixel(p.getX(), p.getY());
+            
+            int invertedR = 255 - currentPixel.getRed();
+            int invertedG = 255 - currentPixel.getGreen();
+            int invertedB = 255 - currentPixel.getBlue();
+            
+            p.setRed(invertedR);
+            p.setGreen(invertedG);
+            p.setBlue(invertedB);
+        }
+    
+        return outImage;
+    }
+    
+      void testInvertColor() {
+    
+        DirectoryResource dr = new DirectoryResource();
+        
+        for(File f: dr.selectedFiles()) {
+            
+            ImageResource image = new ImageResource(f);
+            ImageResource outImage = invertColor(image);
+            
+            String name = image.getFileName();
+            String newName = "inverted-" + name;
+            outImage.setFileName(newName);
+           
+            outImage.draw();
+             outImage.save();
+        }
+        
     }
 
    
